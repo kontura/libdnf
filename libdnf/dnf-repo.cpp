@@ -209,6 +209,13 @@ dnf_repo_get_packages(DnfRepo *repo)
     return priv->packages;
 }
 
+const gchar *
+dnf_repo_get_packages_tmp(DnfRepo *repo)
+{
+    DnfRepoPrivate *priv = GET_PRIVATE(repo);
+    return priv->packages_tmp;
+}
+
 /**
  * dnf_repo_get_public_keys:
  * @repo: a #DnfRepo instance.
@@ -1018,7 +1025,7 @@ dnf_repo_set_keyfile_data(DnfRepo *repo, GError **error)
     if (!lr_handle_setopt(priv->repo_handle, error, LRO_LOCAL, 0L))
         return FALSE;
 
-    if (priv->location == NULL) {
+    {
         g_autofree gchar *tmp = NULL;
         /* make each repo's cache directory name has releasever and basearch as its suffix */
         g_autofree gchar *file_name  = g_strjoin("-", repoId,
@@ -1027,11 +1034,14 @@ dnf_repo_set_keyfile_data(DnfRepo *repo, GError **error)
 
         tmp = g_build_filename(dnf_context_get_cache_dir(priv->context),
                                file_name, NULL);
-        dnf_repo_set_location(repo, tmp);
+        dnf_repo_set_packages_tmp(repo, tmp);
+        if (priv->location == NULL)
+            dnf_repo_set_location(repo, tmp);
+            dnf_repo_set_packages_tmp(repo, tmp);
     }
 
     /* set temp location for remote repos */
-    if (priv->kind == DNF_REPO_KIND_REMOTE) {
+    {
         g_autoptr(GString) tmp = NULL;
         tmp = g_string_new(priv->location);
         if (tmp->len > 0 && tmp->str[tmp->len - 1] == '/')
@@ -2162,20 +2172,9 @@ dnf_repo_download_packages(DnfRepo *repo,
     if (!dnf_repo_set_keyfile_data(repo, error))
         goto out;
 
-    /* we should never be asked to download from a local repo.  if
-       this happens, it's a bug somewhere else. */
-    if (dnf_repo_is_local(repo)) {
-        g_set_error(error,
-                    DNF_ERROR,
-                    DNF_ERROR_INTERNAL_ERROR,
-                    "Refusing to download from local repository \"%s\"",
-                    priv->repo->getId().c_str());
-        goto out;
-    }
-
     /* if nothing specified then use cachedir */
     if (directory == NULL) {
-        directory_slash = g_build_filename(priv->packages, "/", NULL);
+        directory_slash = g_build_filename(priv->packages_tmp, "/", NULL);
         if (!g_file_test(directory_slash, G_FILE_TEST_EXISTS)) {
             if (g_mkdir(directory_slash, 0755) != 0) {
                 g_set_error(error,
