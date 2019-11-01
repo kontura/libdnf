@@ -650,7 +650,7 @@ dnf_repo_set_packages_tmp(DnfRepo *repo, const gchar *packages_tmp)
 {
     DnfRepoPrivate *priv = GET_PRIVATE(repo);
     g_free(priv->packages_tmp);
-    priv->packages_tmp = g_strdup(packages_tmp);
+    priv->packages_tmp = g_build_filename(packages_tmp, "packages.tmp", NULL);
 }
 
 /**
@@ -1037,7 +1037,6 @@ dnf_repo_set_keyfile_data(DnfRepo *repo, GError **error)
         dnf_repo_set_packages_tmp(repo, tmp);
         if (priv->location == NULL)
             dnf_repo_set_location(repo, tmp);
-            dnf_repo_set_packages_tmp(repo, tmp);
     }
 
     /* set temp location for remote repos */
