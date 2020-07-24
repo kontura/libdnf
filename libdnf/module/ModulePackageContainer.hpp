@@ -142,7 +142,7 @@ public:
     *
     * @return bool
     */
-    bool enable(const std::string &name, const std::string &stream);
+    bool enable(const std::string &name, const std::string &stream, const bool count = true);
 
     /**
     * @brief Enable module stream. Return true if requested changes realy triggers a change in
@@ -152,17 +152,17 @@ public:
     *
     * @return bool
     */
-    bool enable(const ModulePackage * module);
+    bool enable(const ModulePackage * module, const bool count = true);
     /**
      * @brief unmark module 'name' from any streams
      */
-    void disable(const std::string & name);
-    void disable(const ModulePackage * module);
+    void disable(const std::string & name, const bool count = true);
+    void disable(const ModulePackage * module, const bool count = true);
     /**
      * @brief Reset module state so it's no longer enabled or disabled.
      */
-    void reset(const std::string &name);
-    void reset(const ModulePackage * module);
+    void reset(const std::string &name, const bool count = true);
+    void reset(const ModulePackage * module, const bool count = true);
     /**
      * @brief add profile to name:stream
      */
