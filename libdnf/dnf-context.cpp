@@ -1780,7 +1780,7 @@ dnf_context_setup_sack_with_flags(DnfContext               *context,
         hotfixRepos.push_back(nullptr);
         try {
             dnf_sack_filter_modules_v2(sack, nullptr, hotfixRepos.data(), priv->install_root,
-                priv->platform_module, false, false);
+                priv->platform_module, false, false, false);
         } catch (libdnf::ModulePackageContainer::ConflictException & exception) {
             g_set_error(error, DNF_ERROR, DNF_ERROR_FAILED, "%s", exception.what());
             return FALSE;
@@ -2927,7 +2927,7 @@ static std::vector<std::tuple<libdnf::ModulePackageContainer::ModuleErrorType, s
 recompute_modular_filtering(libdnf::ModulePackageContainer * moduleContainer, DnfSack * sack, std::vector<const char *> & hotfixRepos)
 {
     auto solver_errors = dnf_sack_filter_modules_v2(
-        sack, moduleContainer, hotfixRepos.data(), nullptr, nullptr, true, false);
+        sack, moduleContainer, hotfixRepos.data(), nullptr, nullptr, true, false, false);
     if (solver_errors.second == libdnf::ModulePackageContainer::ModuleErrorType::NO_ERROR) {
         return {};
     }
@@ -2952,7 +2952,7 @@ recompute_modular_filtering(DnfContext * context, DnfSack * sack, GError ** erro
     hotfixRepos.push_back(nullptr);
     try {
         dnf_sack_filter_modules_v2(sack, nullptr, hotfixRepos.data(), priv->install_root,
-            priv->platform_module, false, false);
+            priv->platform_module, false, false, false);
     } catch (libdnf::ModulePackageContainer::ConflictException & exception) {
         g_set_error(error, DNF_ERROR, DNF_ERROR_FAILED, "%s", exception.what());
         return FALSE;
