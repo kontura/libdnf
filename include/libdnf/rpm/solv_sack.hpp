@@ -34,6 +34,7 @@ class Swdb;
 class Advisory;
 class AdvisorySack;
 class AdvisoryQuery;
+class AdvisoryCollection;
 
 }  // namespace libdnf
 
@@ -174,6 +175,7 @@ private:
     friend Advisory;
     friend AdvisorySack;
     friend AdvisoryQuery;
+    friend AdvisoryCollection;
     class Impl;
     std::unique_ptr<Impl> p_impl;
 };
