@@ -31,6 +31,9 @@ namespace libdnf {
 class Base;
 class Goal;
 class Swdb;
+class Advisory;
+class AdvisorySack;
+class AdvisoryQuery;
 
 }  // namespace libdnf
 
@@ -168,6 +171,9 @@ private:
     friend Transaction;
     friend libdnf::Swdb;
     friend solv::SolvPrivate;
+    friend Advisory;
+    friend AdvisorySack;
+    friend AdvisoryQuery;
     class Impl;
     std::unique_ptr<Impl> p_impl;
 };

@@ -27,6 +27,7 @@ along with libdnf.  If not, see <https://www.gnu.org/licenses/>.
 #include "libdnf/conf/vars.hpp"
 #include "libdnf/transaction/sack.hpp"
 #include "libdnf/plugin/plugins.hpp"
+#include "libdnf/advisory/advisory_sack.hpp"
 
 #include <map>
 
@@ -57,6 +58,7 @@ public:
     rpm::RepoSack & get_rpm_repo_sack() { return rpm_repo_sack; }
     rpm::SolvSack & get_rpm_solv_sack() { return rpm_solv_sack; }
     transaction::TransactionSack & get_transaction_sack() { return transaction_sack; }
+    AdvisorySack & get_rpm_advisory_sack() { return rpm_advisory_sack; }
 
     /// Gets base variables. They can be used in configuration files. Syntax in the config - ${var_name} or $var_name.
     Vars & get_vars() { return vars; }
@@ -87,6 +89,8 @@ private:
     transaction::TransactionSack transaction_sack{*this};
     Vars vars;
     plugin::Plugins plugins{*this};
+    AdvisorySack rpm_advisory_sack{*this};
+    std::map<std::string, std::string> variables;
 };
 
 }  // namespace libdnf
