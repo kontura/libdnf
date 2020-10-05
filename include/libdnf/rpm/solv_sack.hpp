@@ -37,6 +37,7 @@ class AdvisoryQuery;
 class AdvisoryCollection;
 class AdvisoryPackage;
 class AdvisoryModule;
+class AdvisoryReference;
 
 }  // namespace libdnf
 
@@ -180,6 +181,7 @@ private:
     friend AdvisoryCollection;
     friend AdvisoryPackage;
     friend AdvisoryModule;
+    friend AdvisoryReference;
     class Impl;
     std::unique_ptr<Impl> p_impl;
 };
