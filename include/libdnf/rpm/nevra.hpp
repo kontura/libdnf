@@ -29,7 +29,7 @@ namespace libdnf::rpm {
 /// @replaces hawkey:hawkey/__init__.py:class:Nevra
 struct Nevra {
 public:
-    enum class Form { NEVRA = 1, NEVR = 2, NEV = 3, NA = 4, NAME = 5 };
+    enum class Form { NEVRA = 1, NEVR = 2, NEV = 3, NA = 4, NAME = 5, EVR = 6 };
 
     /// The forms and their order determine pkg_spec matching
     static const std::vector<Form> PKG_SPEC_FORMS;

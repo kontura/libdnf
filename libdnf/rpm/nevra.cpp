@@ -36,7 +36,8 @@ static const std::regex NEVRA_FORM_REGEX[]{
     std::regex("^" PKG_NAME "-" PKG_EPOCH PKG_VERSION "-" PKG_RELEASE          "()"  "$"),
     std::regex("^" PKG_NAME "-" PKG_EPOCH PKG_VERSION        "()"              "()"  "$"),
     std::regex("^" PKG_NAME      "()()"      "()"            "()"     "\\." PKG_ARCH "$"),
-    std::regex("^" PKG_NAME      "()()"      "()"            "()"              "()"  "$")
+    std::regex("^" PKG_NAME      "()()"      "()"            "()"              "()"  "$"),
+    std::regex("^"   "()"       PKG_EPOCH PKG_VERSION "-" PKG_RELEASE          "()"  "$")
 };
 // clang-format on
 
