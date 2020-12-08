@@ -281,7 +281,7 @@ class Subject(_hawkey.Subject):
                             solution=None):
         if solution is None:
             solution = self.get_best_solution(base.sack, forms=forms, with_src=False)
-        q = solution['query']
+        q = solution['query'].latest()
         if len(q) == 0:
             return []
         q = self._apply_security_filters(q, base)
