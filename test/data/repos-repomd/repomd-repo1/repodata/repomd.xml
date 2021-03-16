@@ -24,4 +24,12 @@
     <size>13799</size>
     <open-size>52054</open-size>
   </data>
+  <data type="updateinfo">
+    <checksum type="sha256">5648cef84d4bdbf9046701c8780b00fb91077c9076d6ee45f4041ca160a1ea0f</checksum>
+    <open-checksum type="sha256">5648cef84d4bdbf9046701c8780b00fb91077c9076d6ee45f4041ca160a1ea0f</open-checksum>
+    <location href="repodata/updateinfo.xml" />
+    <timestamp>1597222003</timestamp>
+    <size>646</size>
+    <open-size>2510</open-size>
+  </data>
 </repomd>
