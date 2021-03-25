@@ -24,6 +24,7 @@ along with microdnf.  If not, see <https://www.gnu.org/licenses/>.
 #include "commands/repolist/repolist.hpp"
 #include "commands/repoquery/repoquery.hpp"
 #include "commands/upgrade/upgrade.hpp"
+#include "commands/updateinfo/updateinfo.hpp"
 #include "context.hpp"
 #include "utils.hpp"
 
@@ -175,6 +176,7 @@ int main(int argc, char * argv[]) {
     context.commands.push_back(std::make_unique<microdnf::CmdRepolist>());
     context.commands.push_back(std::make_unique<microdnf::CmdRepoquery>());
     context.commands.push_back(std::make_unique<microdnf::CmdUpgrade>());
+    context.commands.push_back(std::make_unique<microdnf::CmdUpdateinfo>());
 
     // Parse command line arguments
     bool help_printed = microdnf::parse_args(context, argc, argv);
