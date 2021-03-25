@@ -74,7 +74,8 @@ void AdvisoryAdvisoryTest::test_get_collections() {
     CPPUNIT_ASSERT_EQUAL(1lu, colls.size());
 
     libdnf::AdvisoryCollection c = colls[0];
-    std::vector<libdnf::AdvisoryPackage> pkgs = c.get_packages();
+    std::vector<libdnf::AdvisoryPackage> pkgs;
+    c.get_packages(pkgs);
     CPPUNIT_ASSERT_EQUAL(2lu, pkgs.size());
     CPPUNIT_ASSERT_EQUAL(std::string("pkg"), pkgs[0].get_name());
     CPPUNIT_ASSERT_EQUAL(std::string("filesystem"), pkgs[1].get_name());
@@ -89,7 +90,8 @@ void AdvisoryAdvisoryTest::test_get_collections() {
     CPPUNIT_ASSERT_EQUAL(2lu, colls.size());
 
     libdnf::AdvisoryCollection c1 = colls[0];
-    pkgs = c1.get_packages();
+    pkgs.clear();
+    c1.get_packages(pkgs);
     CPPUNIT_ASSERT_EQUAL(2lu, pkgs.size());
     CPPUNIT_ASSERT_EQUAL(std::string("wget"), pkgs[0].get_name());
     CPPUNIT_ASSERT_EQUAL(std::string("yum"), pkgs[1].get_name());
@@ -99,7 +101,8 @@ void AdvisoryAdvisoryTest::test_get_collections() {
     CPPUNIT_ASSERT_EQUAL(std::string("perl-DBI"), mods[0].get_name());
 
     libdnf::AdvisoryCollection c2 = colls[1];
-    pkgs = c2.get_packages();
+    pkgs.clear();
+    c2.get_packages(pkgs);
     CPPUNIT_ASSERT_EQUAL(1lu, pkgs.size());
     CPPUNIT_ASSERT_EQUAL(std::string("bitcoin"), pkgs[0].get_name());
 

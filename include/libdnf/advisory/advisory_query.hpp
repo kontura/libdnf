@@ -171,12 +171,8 @@ inline std::vector<AdvisoryPackage> AdvisoryQuery::get_advisory_packages() {
     for (auto advisory = get_data().begin(); advisory != get_data().end();++advisory) {
         auto collections = (*advisory)->get_collections();
 
-        for(const auto& value: collections) {
-            auto packages = value.get_packages();
-            out.reserve(out.size() + packages.size());
-            std::move(packages.begin(), packages.end(), std::back_inserter(out));
-            //TODO(amatej): test what is actually better? like a performance test
-            //out.insert(out.end(), packages.begin(), packages.end());
+        for(const auto& collection: collections) {
+            collection.get_packages(out);
         }
     }
 

@@ -40,7 +40,7 @@ void AdvisoryAdvisoryPackageTest::setUp() {
     //TODO(amatej): get this by id because later someone could add another SECURITY updateinfo
     auto advisory = base->get_rpm_advisory_sack().new_query().ifilter_type(libdnf::sack::QueryCmp::EQ, libdnf::Advisory::Type::SECURITY).list().begin()->get();
     std::vector<libdnf::AdvisoryCollection> collections = advisory->get_collections();
-    packages = collections[0].get_packages();
+    collections[0].get_packages(packages);
 }
 
 void AdvisoryAdvisoryPackageTest::test_get_name() {

@@ -33,7 +33,8 @@ class Base;
 //TODO(amatej): Do we actually need this class? (it didn't ended up needed in DNF4)
 struct AdvisoryCollection {
 public:
-    std::vector<AdvisoryPackage> get_packages(bool with_filenames = false) const;
+    //std::vector<AdvisoryPackage> get_packages(bool with_filenames = false) const;
+    void get_packages(std::vector<AdvisoryPackage> & output, bool with_filenames = false) const;
     std::vector<AdvisoryModule> get_modules() const;
 
     bool is_applicable() const;

@@ -41,9 +41,7 @@ bool AdvisoryCollection::is_applicable() const {
     return true;
 }
 
-std::vector<AdvisoryPackage> AdvisoryCollection::get_packages(bool with_filemanes) const {
-    std::vector<AdvisoryPackage> output;
-
+void AdvisoryCollection::get_packages(std::vector<AdvisoryPackage> & output, bool with_filemanes) const {
     Dataiterator di;
     const char * filename = nullptr;
     auto & solv_sack = base.get_rpm_solv_sack();
@@ -74,8 +72,6 @@ std::vector<AdvisoryPackage> AdvisoryCollection::get_packages(bool with_filemane
         count++;
     }
     dataiterator_free(&di);
-
-    return output;
 }
 
 std::vector<AdvisoryModule> AdvisoryCollection::get_modules() const {
