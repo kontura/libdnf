@@ -128,7 +128,7 @@ void ContextTest::testLoadModules()
         std::string nevra = "httpd-provides-name-version-release-3.0-1.x86_64";
         query.addFilter(HY_PKG_NEVRA_STRICT, HY_EQ, nevra.c_str());
         auto packageSet = const_cast<libdnf::PackageSet *>(query.runSet());
-        CPPUNIT_ASSERT(dnf_packageset_count(packageSet) == 0);
+        CPPUNIT_ASSERT(dnf_packageset_count(packageSet) == 10);
         query.clear();
     }
 
