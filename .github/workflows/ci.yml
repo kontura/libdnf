@@ -60,7 +60,7 @@ jobs:
       - name: Check out ci-dnf-stack
         uses: actions/checkout@v2
         with:
-          repository: rpm-software-management/ci-dnf-stack
+          repository: kontura/ci-dnf-stack
 
       - name: Setup CI
         id: setup-ci
