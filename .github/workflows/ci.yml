@@ -104,5 +104,5 @@ jobs:
         uses: ./.github/actions/integration-tests
         with:
           package-urls: ${{needs.copr-build.outputs.package-urls}}
-          extra-run-args: --tags dnf5 --command microdnf5
+          extra-run-args: --tags dnf5 dnfdaemon --command microdnf5
           base-image: fedora:35
