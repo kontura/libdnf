@@ -37,8 +37,7 @@ std::string Advisory::get_name() const {
     name = get_pool(base).lookup_str(id.id, SOLVABLE_NAME);
 
     if (strncmp(
-            libdnf::solv::SOLVABLE_NAME_ADVISORY_PREFIX, name, libdnf::solv::SOLVABLE_NAME_ADVISORY_PREFIX_LENGTH) !=
-        0) {
+            libdnf::solv::SOLVABLE_NAME_ADVISORY_PREFIX, name, libdnf::solv::SOLVABLE_NAME_ADVISORY_PREFIX_LENGTH) != 0) {
         auto msg = fmt::format(
             R"**(Bad libsolv id for advisory "{}", solvable name "{}" doesn't have advisory prefix "{}")**",
             id.id,
