@@ -26,17 +26,13 @@ along with libdnf.  If not, see <https://www.gnu.org/licenses/>.
 
 
 namespace libdnf::advisory {
-
 class AdvisoryReference;
-
 struct AdvisoryId {
 public:
-    AdvisoryId() = default;
-    explicit AdvisoryId(int id) : id(id) {}
-
-    bool operator==(const AdvisoryId & other) const noexcept { return id == other.id; };
-    bool operator!=(const AdvisoryId & other) const noexcept { return id != other.id; };
-
+    AdvisoryId()=default;
+    explicit AdvisoryId(int id):id(id) {}
+    bool operator==(const AdvisoryId & other) const noexcept {return id == other.id;};
+    bool operator!=(const AdvisoryId & other) const noexcept {return id != other.id;};
     int id{0};
 };
 
