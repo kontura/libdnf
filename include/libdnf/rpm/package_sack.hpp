@@ -90,6 +90,8 @@ public:
 
     void setup_excludes_includes(bool only_main = false);
 
+    rpm::Package get_running_kernel();
+
 private:
     friend libdnf::Goal;
     friend Package;
