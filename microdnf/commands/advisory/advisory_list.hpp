@@ -22,6 +22,7 @@ along with libdnf.  If not, see <https://www.gnu.org/licenses/>.
 #define MICRODNF_COMMANDS_ADVISORY_ADVISORY_LIST_HPP
 
 
+#include "advisory_summary.hpp"
 #include "arguments.hpp"
 
 #include <libdnf-cli/session.hpp>
@@ -34,16 +35,11 @@ along with libdnf.  If not, see <https://www.gnu.org/licenses/>.
 namespace microdnf {
 
 
-class AdvisoryListCommand : public libdnf::cli::session::Command {
+class AdvisoryListCommand : public AdvisorySummaryCommand {
 public:
     explicit AdvisoryListCommand(Command & parent);
-    void run() override;
-
-    std::unique_ptr<AdvisoryAvailableOption> available{nullptr};
-    std::unique_ptr<AdvisoryInstalledOption> installed{nullptr};
-    std::unique_ptr<AdvisoryAllOption> all{nullptr};
-    std::unique_ptr<AdvisoryUpdatesOption> updates{nullptr};
-    std::unique_ptr<AdvisorySpecArguments> package_specs{nullptr};
+    void process_queries(
+        Context & ctx, libdnf::advisory::AdvisoryQuery & advisories, libdnf::rpm::PackageQuery & packages) override;
 
 protected:
     // to be used by an alias command only
