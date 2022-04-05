@@ -47,6 +47,7 @@ public:
     std::unique_ptr<AdvisoryInstalledOption> installed{nullptr};
     std::unique_ptr<AdvisoryAllOption> all{nullptr};
     std::unique_ptr<AdvisoryUpdatesOption> updates{nullptr};
+    std::unique_ptr<AdvisoryWhatcontainsOption> what_contains{nullptr};
     std::unique_ptr<AdvisorySpecArguments> advisory_specs{nullptr};
 
 protected:

@@ -69,6 +69,18 @@ public:
 };
 
 
+class AdvisoryWhatcontainsOption : public libdnf::cli::session::StringListOption {
+public:
+    explicit AdvisoryWhatcontainsOption(libdnf::cli::session::Command & command)
+        : StringListOption(
+              command,
+              "whatcontains",
+              '\0',
+              _("Show only advisories containing packages with specified names. List option, supports globs."),
+              _("PACKAGE_NAME,...")) {}
+};
+
+
 class AdvisorySpecArguments : public libdnf::cli::session::StringArgumentList {
 public:
     explicit AdvisorySpecArguments(libdnf::cli::session::Command & command)
