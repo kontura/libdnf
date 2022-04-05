@@ -50,6 +50,8 @@ public:
     std::unique_ptr<AdvisorySpecArguments> advisory_specs{nullptr};
 
 protected:
+    void add_running_kernel_packages(libdnf::Base & base, libdnf::rpm::PackageQuery & package_query);
+
     // to be used by an alias command only
     explicit AdvisorySummaryCommand(Command & parent, const std::string & name);
     explicit AdvisorySummaryCommand(Command & parent, const std::string & name, const std::string & short_description);

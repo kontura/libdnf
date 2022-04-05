@@ -66,6 +66,17 @@ AdvisorySummaryCommand::AdvisorySummaryCommand(
     updates->arg->set_conflict_arguments(conflict_args);
 }
 
+void AdvisorySummaryCommand::add_running_kernel_packages(
+    libdnf::Base & base, libdnf::rpm::PackageQuery & package_query) {
+    auto kernel = base.get_rpm_package_sack()->get_running_kernel();
+    if (kernel.get_id().id > 0) {
+        libdnf::rpm::PackageQuery kernel_query(base);
+        kernel_query.filter_sourcerpm({kernel.get_sourcerpm()});
+        kernel_query.filter_installed();
+        package_query |= kernel_query;
+    }
+}
+
 void AdvisorySummaryCommand::process_queries(
     Context & ctx, libdnf::advisory::AdvisoryQuery & advisories, libdnf::rpm::PackageQuery & packages) {
     std::string mode;
@@ -88,6 +99,8 @@ void AdvisorySummaryCommand::process_queries(
     } else {  // available is the default
         packages.filter_installed();
         packages.filter_latest_evr();
+
+        add_running_kernel_packages(ctx.base, packages);
 
         advisories.filter_packages(packages, libdnf::sack::QueryCmp::GT);
         mode = _("Available");
