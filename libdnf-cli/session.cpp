@@ -109,6 +109,36 @@ StringListOption::StringListOption(
     const std::string & long_name,
     char short_name,
     const std::string & desc,
+    const std::string & help,
+    const std::string & allowed_values_regex,
+    const bool icase) {
+    auto & parser = command.get_session().get_argument_parser();
+    conf = dynamic_cast<libdnf::OptionStringList *>(parser.add_init_value(
+        std::make_unique<libdnf::OptionStringList>(std::vector<std::string>(), allowed_values_regex, icase)));
+    arg = parser.add_new_named_arg(long_name);
+
+    if (!long_name.empty()) {
+        arg->set_long_name(long_name);
+    }
+
+    if (short_name) {
+        arg->set_short_name(short_name);
+    }
+
+    arg->set_short_description(desc);
+    arg->set_arg_value_help(help);
+    arg->set_has_value(true);
+    arg->link_value(conf);
+
+    command.get_argument_parser_command()->register_named_arg(arg);
+}
+
+
+StringListOption::StringListOption(
+    libdnf::cli::session::Command & command,
+    const std::string & long_name,
+    char short_name,
+    const std::string & desc,
     const std::string & help) {
     auto & parser = command.get_session().get_argument_parser();
     conf = dynamic_cast<libdnf::OptionStringList *>(
