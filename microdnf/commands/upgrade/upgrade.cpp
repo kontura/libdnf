@@ -104,6 +104,15 @@ void UpgradeCommand::run() {
 
     std::vector<std::string> types = advisory_type->get_value();
     settings.advisory_filter_cmp = libdnf::sack::QueryCmp::GTE;
+    if (minimal->get_value()) {
+        if (types.empty()) {
+            types.push_back("security");
+            types.push_back("bugfix");
+            types.push_back("enhancement");
+        }
+        settings.advisory_filter_cmp = libdnf::sack::QueryCmp::EQ;
+    }
+
     auto advisories = advisory_query_from_cli_input(
         ctx.base,
         advisory_name->get_value(),
