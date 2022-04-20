@@ -225,6 +225,12 @@ GoalProblem Goal::Impl::add_specs_to_goal(base::Transaction & transaction) {
                 break;
             case GoalAction::UPGRADE_ALL: {
                 rpm::PackageQuery query(base);
+
+                // Apply advisory filters
+                if (settings.advisory_filter.has_value()) {
+                    query.filter_advisories(settings.advisory_filter.value(), settings.advisory_filter_cmp);
+                }
+
                 libdnf::solv::IdQueue upgrade_ids;
                 for (auto package_id : *query.p_impl) {
                     upgrade_ids.push_back(package_id);
@@ -267,6 +273,12 @@ GoalProblem Goal::Impl::add_install_to_goal(
     auto multilib_policy = cfg_main.multilib_policy().get_value();
     libdnf::solv::IdQueue tmp_queue;
     rpm::PackageQuery base_query(base);
+
+    // Apply advisory filters
+    if (settings.advisory_filter.has_value()) {
+        base_query.filter_advisories(settings.advisory_filter.value(), settings.advisory_filter_cmp);
+    }
+
     rpm::PackageQuery query(base_query);
     auto nevra_pair = query.resolve_pkg_spec(spec, settings, false);
     if (!nevra_pair.first) {
@@ -755,6 +767,12 @@ void Goal::Impl::add_up_down_distrosync_to_goal(
 
     auto sack = base->get_rpm_package_sack();
     rpm::PackageQuery base_query(base);
+
+    // Apply advisory filters
+    if (settings.advisory_filter.has_value()) {
+        base_query.filter_advisories(settings.advisory_filter.value(), settings.advisory_filter_cmp);
+    }
+
     auto obsoletes = base->get_config().obsoletes().get_value();
     libdnf::solv::IdQueue tmp_queue;
     rpm::PackageQuery query(base_query);
@@ -823,7 +841,6 @@ void Goal::Impl::add_up_down_distrosync_to_goal(
         query |= installed;
     }
 
-    // TODO(jmracek) Apply security filters
     switch (action) {
         case GoalAction::UPGRADE:
             // For a correct upgrade of installonly packages keep only the latest installed packages
