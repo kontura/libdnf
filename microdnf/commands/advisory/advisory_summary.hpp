@@ -56,6 +56,9 @@ public:
     std::unique_ptr<AdvisoryBzFilterOption> advisory_bz{nullptr};
     std::unique_ptr<AdvisoryCveFilterOption> advisory_cve{nullptr};
 
+    std::unique_ptr<AdvisoryWithBzOption> with_bz{nullptr};
+    std::unique_ptr<AdvisoryWithCveOption> with_cve{nullptr};
+
 protected:
     void add_running_kernel_packages(libdnf::Base & base, libdnf::rpm::PackageQuery & package_query);
 
