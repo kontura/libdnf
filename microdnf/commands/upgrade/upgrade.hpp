@@ -21,6 +21,7 @@ along with libdnf.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef MICRODNF_COMMANDS_UPGRADE_UPGRADE_HPP
 #define MICRODNF_COMMANDS_UPGRADE_UPGRADE_HPP
 
+#include "../advisory_shared.hpp"
 
 #include <libdnf-cli/session.hpp>
 #include <libdnf/conf/option_bool.hpp>
@@ -45,6 +46,12 @@ protected:
     libdnf::OptionBool * minimal{nullptr};
     std::vector<std::string> pkg_specs;
     std::vector<std::string> pkg_file_paths;
+
+    std::unique_ptr<AdvisoryNameFilterOption> advisory_name{nullptr};
+    std::unique_ptr<AdvisoryTypeFilterOption> advisory_type{nullptr};
+    std::unique_ptr<AdvisorySeverityFilterOption> advisory_severity{nullptr};
+    std::unique_ptr<AdvisoryBzFilterOption> advisory_bz{nullptr};
+    std::unique_ptr<AdvisoryCveFilterOption> advisory_cve{nullptr};
 };
 
 

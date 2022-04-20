@@ -21,6 +21,7 @@ along with libdnf.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef MICRODNF_COMMANDS_ADVISORY_ADVISORY_SUMMARY_HPP
 #define MICRODNF_COMMANDS_ADVISORY_ADVISORY_SUMMARY_HPP
 
+#include "../advisory_shared.hpp"
 #include "arguments.hpp"
 #include "microdnf/context.hpp"
 
@@ -49,6 +50,11 @@ public:
     std::unique_ptr<AdvisoryUpdatesOption> updates{nullptr};
     std::unique_ptr<AdvisoryWhatcontainsOption> what_contains{nullptr};
     std::unique_ptr<AdvisorySpecArguments> advisory_specs{nullptr};
+
+    std::unique_ptr<AdvisoryTypeFilterOption> advisory_type{nullptr};
+    std::unique_ptr<AdvisorySeverityFilterOption> advisory_severity{nullptr};
+    std::unique_ptr<AdvisoryBzFilterOption> advisory_bz{nullptr};
+    std::unique_ptr<AdvisoryCveFilterOption> advisory_cve{nullptr};
 
 protected:
     void add_running_kernel_packages(libdnf::Base & base, libdnf::rpm::PackageQuery & package_query);

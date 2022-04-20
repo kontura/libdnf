@@ -58,6 +58,11 @@ AdvisorySummaryCommand::AdvisorySummaryCommand(
     advisory_specs = std::make_unique<AdvisorySpecArguments>(*this);
     what_contains = std::make_unique<AdvisoryWhatcontainsOption>(*this);
 
+    advisory_type = std::make_unique<AdvisoryTypeFilterOption>(*this);
+    advisory_severity = std::make_unique<AdvisorySeverityFilterOption>(*this);
+    advisory_bz = std::make_unique<AdvisoryBzFilterOption>(*this);
+    advisory_cve = std::make_unique<AdvisoryCveFilterOption>(*this);
+
     auto conflict_args = parser.add_conflict_args_group(std::unique_ptr<std::vector<ArgumentParser::Argument *>>(
         new std::vector<ArgumentParser::Argument *>{all->arg, available->arg, installed->arg, updates->arg}));
 
@@ -126,12 +131,15 @@ void AdvisorySummaryCommand::run() {
         package_query.filter_name(package_specs_strs, libdnf::sack::QueryCmp::IGLOB);
     }
 
-    auto advisories = libdnf::advisory::AdvisoryQuery(ctx.base);
-    auto advisory_specs_strs = advisory_specs->get_value();
-    // Filter advisories by patterns if given
-    if (advisory_specs_strs.size() > 0) {
-        advisories.filter_name(advisory_specs_strs, libdnf::sack::QueryCmp::IGLOB);
-    }
+    auto advisories_opt = advisory_query_from_cli_input(
+        ctx.base,
+        advisory_specs->get_value(),
+        advisory_type->get_value(),
+        advisory_severity->get_value(),
+        advisory_bz->get_value(),
+        advisory_cve->get_value());
+
+    auto advisories = advisories_opt.value_or(libdnf::advisory::AdvisoryQuery(ctx.base));
 
     process_queries(ctx, advisories, package_query);
 }

@@ -22,6 +22,8 @@ along with libdnf.  If not, see <https://www.gnu.org/licenses/>.
 #define MICRODNF_COMMANDS_INSTALL_INSTALL_HPP
 
 
+#include "../advisory_shared.hpp"
+
 #include <libdnf-cli/session.hpp>
 
 #include <memory>
@@ -39,6 +41,12 @@ public:
 private:
     std::vector<std::string> pkg_specs;
     std::vector<std::string> pkg_file_paths;
+
+    std::unique_ptr<AdvisoryNameFilterOption> advisory_name{nullptr};
+    std::unique_ptr<AdvisoryTypeFilterOption> advisory_type{nullptr};
+    std::unique_ptr<AdvisorySeverityFilterOption> advisory_severity{nullptr};
+    std::unique_ptr<AdvisoryBzFilterOption> advisory_bz{nullptr};
+    std::unique_ptr<AdvisoryCveFilterOption> advisory_cve{nullptr};
 };
 
 

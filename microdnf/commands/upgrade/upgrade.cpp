@@ -74,6 +74,13 @@ UpgradeCommand::UpgradeCommand(Command & parent, const std::string & name) : Com
             return true;
         });
     keys->set_complete_hook_func([&ctx](const char * arg) { return match_specs(ctx, arg, true, false, true, false); });
+
+    advisory_name = std::make_unique<AdvisoryNameFilterOption>(*this);
+    advisory_type = std::make_unique<AdvisoryTypeFilterOption>(*this);
+    advisory_severity = std::make_unique<AdvisorySeverityFilterOption>(*this);
+    advisory_bz = std::make_unique<AdvisoryBzFilterOption>(*this);
+    advisory_cve = std::make_unique<AdvisoryCveFilterOption>(*this);
+
     cmd.register_positional_arg(keys);
 }
 
@@ -92,14 +99,30 @@ void UpgradeCommand::run() {
     std::cout << std::endl;
 
     libdnf::Goal goal(ctx.base);
+
+    auto settings = libdnf::GoalJobSettings();
+
+    std::vector<std::string> types = advisory_type->get_value();
+    settings.advisory_filter_cmp = libdnf::sack::QueryCmp::GTE;
+    auto advisories = advisory_query_from_cli_input(
+        ctx.base,
+        advisory_name->get_value(),
+        types,
+        advisory_severity->get_value(),
+        advisory_bz->get_value(),
+        advisory_cve->get_value());
+    if (advisories.has_value()) {
+        settings.advisory_filter = advisories;
+    }
+
     if (pkg_specs.empty() && pkg_file_paths.empty()) {
-        goal.add_rpm_upgrade();
+        goal.add_rpm_upgrade(settings);
     } else {
         for (const auto & pkg : cmdline_packages) {
-            goal.add_rpm_upgrade(pkg);
+            goal.add_rpm_upgrade(pkg, settings);
         }
         for (const auto & spec : pkg_specs) {
-            goal.add_rpm_upgrade(spec);
+            goal.add_rpm_upgrade(spec, settings);
         }
     }
 
